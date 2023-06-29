@@ -19,7 +19,7 @@ class MainActivity : ComponentActivity() {
             FirstApplicationTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    Greeting("1")
+                    Greeting("1 bms")
                 }
             }
         }
