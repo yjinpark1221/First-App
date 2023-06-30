@@ -1,13 +1,18 @@
 package com.example.firstapp.ui.dashboard
 
+import android.R.attr.button
+import android.R.attr.text
+import android.R.id.edit
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.firstapp.databinding.FragmentDashboardBinding
+
 
 class DashboardFragment : Fragment() {
 
@@ -32,6 +37,8 @@ class DashboardFragment : Fragment() {
         dashboardViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
+        val myButton: Button = binding.myButton
+        myButton.setOnClickListener(View.OnClickListener { myButton.setBackgroundColor(0) })
         return root
     }
 
