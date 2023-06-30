@@ -10,6 +10,12 @@ import android.view.View
 class BoardAdapter(private val itemList: ArrayList<BoardItem>) :
     RecyclerView.Adapter<BoardAdapter.BoardViewHolder>() {
 
+    interface OnItemClickListener {
+        fun onItemClick(position: Int) {}
+    }
+
+    var itemClickListener: OnItemClickListener? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BoardViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_recycler_view, parent, false)
         return BoardViewHolder(view)
@@ -30,5 +36,11 @@ class BoardAdapter(private val itemList: ArrayList<BoardItem>) :
         val name = itemView.findViewById<TextView>(R.id.name)
         val phone = itemView.findViewById<TextView>(R.id.phone)
         val email = itemView.findViewById<TextView>(R.id.email)
+
+        init {
+            itemView.setOnClickListener{
+                itemClickListener?.onItemClick(adapterPosition)
+            }
+        }
     }
 }
