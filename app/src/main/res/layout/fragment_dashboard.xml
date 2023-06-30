@@ -6,10 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".ui.dashboard.DashboardFragment"
     android:orientation="vertical" >
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="399dp"
+        android:layout_height="309dp" />
 
     <TextView
         android:id="@+id/text_dashboard"
