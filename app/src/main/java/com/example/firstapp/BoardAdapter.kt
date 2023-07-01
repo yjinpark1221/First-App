@@ -33,7 +33,6 @@ class BoardAdapter(private val itemList: ArrayList<BoardItem>) :
         return itemList.count()
     }
 
-
     inner class BoardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val name = itemView.findViewById<TextView>(R.id.name)
         val phone = itemView.findViewById<TextView>(R.id.phone)
