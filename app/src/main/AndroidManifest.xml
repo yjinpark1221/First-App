@@ -22,6 +22,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name="com.example.firstapp.PhoneActivity"
+            android:label="연락처 추가"
+        >
+       </activity>
+
     </application>
 
 </manifest>

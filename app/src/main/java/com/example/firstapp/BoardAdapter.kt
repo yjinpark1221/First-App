@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.ViewGroup
 import android.widget.TextView
 import android.view.View
+import android.widget.Button
+import android.widget.Toast
 
 class BoardAdapter(private val itemList: ArrayList<BoardItem>) :
     RecyclerView.Adapter<BoardAdapter.BoardViewHolder>() {
@@ -37,10 +39,14 @@ class BoardAdapter(private val itemList: ArrayList<BoardItem>) :
         val phone = itemView.findViewById<TextView>(R.id.phone)
         val email = itemView.findViewById<TextView>(R.id.email)
 
+//        val callbutton : Button = itemView.findViewById<Button>(R.id.call_btn)
         init {
             itemView.setOnClickListener{
                 itemClickListener?.onItemClick(adapterPosition)
             }
+//            callbutton.setOnClickListener{
+//                Toast.makeText(itemView.context, "${phone.toString()} 전화 연결...", Toast.LENGTH_SHORT).show()
+//            }
         }
     }
 }
