@@ -20,6 +20,12 @@
         android:paddingHorizontal="10dp"
         android:text="010-1234-5678" />
 
+    <ImageButton
+        android:id="@+id/call_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_call_24" />
+
     <TextView
         android:id="@+id/email"
         android:layout_width="wrap_content"
