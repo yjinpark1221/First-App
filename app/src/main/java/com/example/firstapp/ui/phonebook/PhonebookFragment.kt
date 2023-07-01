@@ -55,7 +55,7 @@ class PhonebookFragment : Fragment() {
         itemList.add(BoardItem("박연진","010-6789-0123","ppulppyo@naver.com"))
         itemList.add(BoardItem("박연진","010-6789-0123","ppulppyo@naver.com"))
         itemList.add(BoardItem("박연진","010-6789-0123","ppulppyo@naver.com"))
-        itemList.add(BoardItem("박연진","010-6789-0123","ppulppyo@naver.com"))
+        itemList.add(BoardItem("배민성","010-6789-0123","ppulppyo@naver.com"))
         itemList.add(BoardItem("박연진","010-6789-0123","ppulppyo@naver.com"))
         itemList.add(BoardItem("박연진","010-6789-0123","ppulppyo@naver.com"))
         itemList.add(BoardItem("박연진","010-6789-0123","ppulppyo@naver.com"))
