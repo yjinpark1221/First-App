@@ -1,5 +1,6 @@
 package com.example.firstapp.ui.phonebook
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +14,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.firstapp.databinding.FragmentPhonebookBinding
 import com.example.firstapp.BoardItem
 import com.example.firstapp.BoardAdapter
+import com.example.firstapp.PhoneActivity
 import com.example.firstapp.R
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class PhonebookFragment : Fragment() {
 
@@ -39,6 +42,7 @@ class PhonebookFragment : Fragment() {
 
         val itemList = ArrayList<BoardItem>()
 
+        itemList.add(BoardItem("박연진1","010-6789-0123","ppulppyo@naver.com"))
         itemList.add(BoardItem("박연진","010-6789-0123","ppulppyo@naver.com"))
         itemList.add(BoardItem("박연진","010-6789-0123","ppulppyo@naver.com"))
         itemList.add(BoardItem("박연진","010-6789-0123","ppulppyo@naver.com"))
@@ -59,8 +63,7 @@ class PhonebookFragment : Fragment() {
         itemList.add(BoardItem("박연진","010-6789-0123","ppulppyo@naver.com"))
         itemList.add(BoardItem("박연진","010-6789-0123","ppulppyo@naver.com"))
         itemList.add(BoardItem("박연진","010-6789-0123","ppulppyo@naver.com"))
-        itemList.add(BoardItem("박연진","010-6789-0123","ppulppyo@naver.com"))
-        itemList.add(BoardItem("박연진","010-6789-0123","ppulppyo@naver.com"))
+        itemList.add(BoardItem("박연진end","010-6789-0123","ppulppyo@naver.com"))
 
 
         val boardAdapter = BoardAdapter(itemList)
@@ -76,6 +79,16 @@ class PhonebookFragment : Fragment() {
                 Toast.makeText(context, "${item.name} 클릭함", Toast.LENGTH_SHORT).show()
             }
         }
+
+        // fab (연락처 추가 기능)
+        val fab : FloatingActionButton = binding.phoneFab
+        fab.setOnClickListener {
+//            Toast.makeText(context, "+ 클릭함", Toast.LENGTH_SHORT).show()
+
+            val intent = Intent(context, PhoneActivity::class.java)
+            startActivity(intent)
+        }
+
         return root
     }
 
