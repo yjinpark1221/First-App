@@ -28,7 +28,7 @@ class AlbumDetailsFragment : Fragment() {
         if (album != null) {
             // Use the album data to display the images or perform any other required operations
             val rvBoard : RecyclerView = binding.albumDetails
-            val adapter = ImageAdapter(album.imageList)
+            val adapter = ImageAdapter(requireContext(),album.imageList)
             rvBoard.adapter = adapter
             rvBoard.layoutManager = GridLayoutManager(requireContext(), 3)
         }

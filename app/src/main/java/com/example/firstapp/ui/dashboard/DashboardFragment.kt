@@ -53,7 +53,7 @@ class DashboardFragment : Fragment() {
 
 
         val rvBoard : RecyclerView = binding.rvBoard
-        val albumAdapter = AlbumAdapter(albumList)
+        val albumAdapter = AlbumAdapter(requireContext(), albumList)
         rvBoard.adapter = albumAdapter
         rvBoard.layoutManager = GridLayoutManager(requireContext(), 2)
 
