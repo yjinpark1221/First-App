@@ -1,8 +1,10 @@
 package com.example.firstapp
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -10,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.firstapp.ui.dashboard.DashboardFragmentDirections
 
-class AlbumAdapter(private val albumList: List<Album>) :
+class AlbumAdapter(private val context: Context, private val albumList: List<Album>) :
     RecyclerView.Adapter<AlbumAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -29,17 +31,12 @@ class AlbumAdapter(private val albumList: List<Album>) :
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val albumNameTextView: TextView = itemView.findViewById(R.id.albumNameTextView)
-        private val imageRecyclerView: RecyclerView = itemView.findViewById(R.id.imageRecyclerView)
+        private val albumimageView: ImageView = itemView.findViewById(R.id.albumImageView)
 
         fun bind(album: Album) {
+
             albumNameTextView.text = album.albumName
-
-            val spanCount = 2 // Number of columns in the grid
-            val layoutManager = GridLayoutManager(itemView.context, spanCount)
-            imageRecyclerView.layoutManager = layoutManager
-
-            val imageAdapter = ImageAdapter(album.imageList)
-            imageRecyclerView.adapter = imageAdapter
+            albumimageView.setImageResource(album.imageList[0])
 
             itemView.setOnClickListener {
                 val position = adapterPosition
@@ -50,15 +47,5 @@ class AlbumAdapter(private val albumList: List<Album>) :
                 }
             }
         }
-
-
-//        fun onClick(v: View?) {
-//            val position = adapterPosition
-//            if (position != RecyclerView.NO_POSITION) {
-//                val clickedAlbum = albumList[position]
-//                val action = DashboardFragmentDirections.actionDashboardFragmentToAlbumDetailsFragment(clickedAlbum)
-//                itemView.findNavController().navigate(action)
-//            }
-//        }
     }
 }

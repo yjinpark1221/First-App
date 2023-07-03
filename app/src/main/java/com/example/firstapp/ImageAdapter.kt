@@ -10,10 +10,13 @@ import android.view.Window
 import android.widget.BaseAdapter
 import android.widget.GridView
 import android.widget.ImageView
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
 
-class ImageAdapter(private val imageList: List<Int>) :
-    RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
+class ImageAdapter(
+    private val context: Context,
+    private val imageList: List<Int>
+) : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_image, parent, false)
@@ -34,6 +37,17 @@ class ImageAdapter(private val imageList: List<Int>) :
 
         fun bind(imageResource: Int) {
             imageView.setImageResource(imageResource)
+
+            imageView.setOnClickListener {
+                val dialog = Dialog(context)
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                dialog.setContentView(R.layout.dialog_image)
+
+                val enlargedImageView = dialog.findViewById<ImageView>(R.id.enlargedImageView)
+                enlargedImageView.setImageResource(imageResource)
+
+                dialog.show()
+            }
         }
     }
 }
