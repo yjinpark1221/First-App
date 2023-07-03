@@ -15,11 +15,25 @@
         android:id="@+id/navigation_dashboard"
         android:name="com.example.firstapp.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard">
+        <action
+            android:id="@+id/action_dashboardFragment_to_albumDetailsFragment"
+            app:destination="@id/navigation_albumDetailsFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.example.firstapp.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+
+    <fragment
+        android:id="@+id/navigation_albumDetailsFragment"
+        android:name="com.example.firstapp.ui.dashboard.AlbumDetailsFragment"
+        android:label="Album Details"
+        tools:layout="@layout/fragment_album_details">
+        <argument
+            android:name="album"
+            app:argType="com.example.firstapp.Album" />
+    </fragment>
 </navigation>
