@@ -12,4 +12,13 @@
     <color name="light_blue_A200">#FF40C4FF</color>
     <color name="light_blue_A400">#FF00B0FF</color>
     <color name="black_overlay">#66000000</color>
+    <color name="dark_gray">            #303030</color>
+    <color name="mute_blue">            #839ACC</color>
+    <color name="dark_blue">            #343E87</color>
+    <color name="bright_blue">          #5D5AD9</color>
+    <color name="greenish_blue">        #1895A3</color>
+    <color name="mute_blue_overlay">    #CC839ACC</color>
+    <color name="dark_blue_overlay">    #CC343E87</color>
+    <color name="bright_blue_overlay">  #CC5D5AD9</color>
+    <color name="greenish_blue_overlay">#CC1895A3</color>
 </resources>

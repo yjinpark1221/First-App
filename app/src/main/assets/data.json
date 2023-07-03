@@ -1,0 +1,32 @@
+[
+  {
+    "name": "배민성",
+    "phone": "01012341234",
+    "email": "bms@sample.com"
+  },
+  {
+    "name": "박연진",
+    "phone": "01056785678",
+    "email": ""
+  },
+  {
+    "name": "강현서",
+    "phone": "01012121212",
+    "email": "hyunseo@kang.com"
+  },
+  {
+    "name": "권진현",
+    "phone": "00000000000",
+    "email": "kjhkjh@kaist.ac.kr"
+},
+  {
+    "name": "오정민",
+    "phone": "55555555555",
+    "email": ""
+  },
+  {
+    "name": "장영욱",
+    "phone": "01012341234",
+    "email": ""
+  }
+}

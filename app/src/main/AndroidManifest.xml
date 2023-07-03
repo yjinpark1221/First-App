@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,6 +13,10 @@
         android:theme="@style/Theme.FirstApp"
         tools:targetApi="31">
         <activity
+            android:name=".PhoneDetailActivity"
+            android:exported="false"
+            android:label="연락처 상세"/>
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name">
@@ -21,13 +26,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name="com.example.firstapp.PhoneActivity"
-            android:label="연락처 추가"
-        >
-       </activity>
-
+            android:name=".PhoneNewActivity"
+            android:label="연락처 추가" />
     </application>
 
 </manifest>

@@ -1,22 +1,23 @@
 package com.example.firstapp
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
-import com.example.firstapp.databinding.ActivityMainBinding
 import com.example.firstapp.ui.phonebook.PhonebookFragment
 import java.util.regex.Pattern
 
-class PhoneActivity : AppCompatActivity() {
+class PhoneNewActivity : AppCompatActivity() {
     private lateinit var fragment : PhonebookFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_phone)
+        setContentView(R.layout.activity_phone_new)
 
         fragment = PhonebookFragment()
 
@@ -35,7 +36,7 @@ class PhoneActivity : AppCompatActivity() {
         nameInput.addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                nameBuffer = nameInput.text.toString().trim()
+                nameBuffer = nameInput.text.toString()
                 saveBtn.isEnabled = isValid(nameBuffer, phoneBuffer, emailBuffer)
             }
             override fun afterTextChanged(p0: Editable?) {}

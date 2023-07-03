@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PhoneNewActivity"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/name_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:layout_margin="20dp"
+        android:textStyle="bold"
+        android:text="이름" />
+
+    <EditText
+        android:id="@+id/name_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:hint="이름을 입력하세요"
+        android:singleLine="true"
+        android:imeOptions="actionNext" />
+
+    <TextView
+        android:id="@+id/phone_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:layout_margin="20dp"
+        android:textStyle="bold"
+        android:text="전화번호" />
+
+    <EditText
+        android:id="@+id/phone_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:inputType="phone"
+        android:digits="0123456789"
+        android:hint="'-' 없이 숫자만 입력하세요"
+        android:imeOptions="actionNext" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp">
+        <TextView
+            android:id="@+id/email_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:layout_marginRight="10dp"
+            android:text="e-mail" />
+
+        <TextView
+            android:id="@+id/email_optional_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(optional)"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+
+    <EditText
+        android:id="@+id/email_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:inputType="textEmailAddress"
+        android:hint="e-mail을 입력하세요"
+        android:imeOptions="actionDone" />
+
+    <Button
+        android:id="@+id/phone_save_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save"
+        android:layout_gravity="center"
+        app:layout_constraintBottom_toTopOf="@id/email_input"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</LinearLayout>

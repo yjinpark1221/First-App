@@ -1,6 +1,8 @@
 package com.example.firstapp.ui.phonebook
 
+import android.content.Context
 import android.content.Intent
+import android.content.res.AssetManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,13 +17,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.firstapp.databinding.FragmentPhonebookBinding
 import com.example.firstapp.BoardItem
 import com.example.firstapp.BoardAdapter
-import com.example.firstapp.PhoneActivity
+import com.example.firstapp.PhoneDetailActivity
+import com.example.firstapp.PhoneNewActivity
 import com.example.firstapp.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import org.json.JSONArray
+import java.io.BufferedReader
+import java.io.File
+import java.io.IOException
+import java.io.InputStream
+import java.io.InputStreamReader
 
-class PhonebookFragment : Fragment() {
+class PhonebookFragment : Fragment()  {
     companion object {
         var itemList = ArrayList<BoardItem>()
+        var first = true
     }
     private var _binding: FragmentPhonebookBinding? = null
 
@@ -31,6 +43,7 @@ class PhonebookFragment : Fragment() {
     public lateinit var boardAdapter : BoardAdapter
     private lateinit var rvBoard : RecyclerView
     private lateinit var context : FragmentActivity
+    private lateinit var recyclerCountText : TextView
 
     // 데이터를 전달해야 할 곳에서 다음과 같이 호출합니다.
     override fun onCreateView(
@@ -43,28 +56,40 @@ class PhonebookFragment : Fragment() {
 
         _binding = FragmentPhonebookBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        context = this.activity as FragmentActivity
 
+        if (first) {
+            val json = readDataFromAssets("data.json")
+            if (json != null) {
+                val tmp = parseJsonToBoardItems(json)
+                for (boardItem in tmp) {
+                    itemList.add(boardItem)
+                }
+                first = false
+            }
+        }
         rvBoard = binding.rvBoard
+        recyclerCountText = binding.recyclerCount
 
         boardAdapter = BoardAdapter(itemList)
         boardAdapter.notifyDataSetChanged()
+        recyclerCountText.text = "${itemList.size} ${getString(R.string.recycler_count)}"
 
-        context = this.activity as FragmentActivity
         rvBoard.adapter = boardAdapter
         rvBoard.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
-        boardAdapter.itemClickListener = object : BoardAdapter.OnItemClickListener{
+        boardAdapter.itemClickListener = object : BoardAdapter.OnItemClickListener {
             override fun onItemClick(position: Int) {
-                val item = itemList[position]
+                val intent = Intent(context, PhoneDetailActivity::class.java)
+                intent.putExtra("index", position)
+                startActivity(intent)
             }
         }
 
         // fab (연락처 추가 기능)
-        val fab : FloatingActionButton = binding.phoneFab
+        val fab: FloatingActionButton = binding.phoneFab
         fab.setOnClickListener {
-//            Toast.makeText(context, "+ 클릭함", Toast.LENGTH_SHORT).show()
-
-            val intent = Intent(context, PhoneActivity::class.java)
+            val intent = Intent(context, PhoneNewActivity::class.java)
             startActivity(intent)
         }
 
@@ -74,7 +99,26 @@ class PhonebookFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         boardAdapter.notifyDataSetChanged()
-        rvBoard.scrollToPosition(itemList.size - 1)
+        recyclerCountText.text = "${itemList.size} ${getString(R.string.recycler_count)}"
+    }
+
+    fun parseJsonToBoardItems(json: String): ArrayList<BoardItem> {
+        val gson = Gson()
+        val itemType = object : TypeToken<ArrayList<BoardItem>>() {}.type
+        return gson.fromJson(json, itemType)
+    }
+
+    fun readDataFromAssets(fileName: String): String? {
+        val assetManager: AssetManager = context.assets
+        return try {
+            val inputStream = assetManager.open(fileName)
+            val reader = BufferedReader(InputStreamReader(inputStream))
+            val json = reader.use { it.readText() }
+            json
+        } catch (e: IOException) {
+            e.printStackTrace()
+            null
+        }
     }
 
     override fun onDestroyView() {

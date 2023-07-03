@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">FirstApp</string>
     <string name="title_phonebook">연락처</string>
-    <string name="title_dashboard">Dashboard</string>
+    <string name="title_dashboard">갤러리</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="save">Save</string>
+    <string name="recycler_count">개의 연락처</string>
 
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
@@ -26,6 +27,8 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+
+    <string name="title_activity_phone_detail">PhoneDetailActivity</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
@@ -63,7 +66,5 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
-    <string name="title_activity_fullscreen">FullscreenActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+
 </resources>
