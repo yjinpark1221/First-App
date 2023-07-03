@@ -7,12 +7,26 @@
     android:paddingBottom="?attr/actionBarSize"
     tools:context=".ui.phonebook.PhonebookFragment">
 
+    <TextView
+        android:id="@+id/recycler_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/recycler_count"
+        android:layout_gravity="top"
+        android:padding="5dp"
+        android:textAlignment="center"
+        android:background="?attr/colorPrimary"
+        android:textColor="?attr/colorOnPrimary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:id="@+id/rv_board"
         tools:listitem="@layout/item_recycler_view"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recycler_count"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
