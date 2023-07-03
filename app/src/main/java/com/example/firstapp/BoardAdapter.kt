@@ -2,6 +2,9 @@ package com.example.firstapp
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.view.LayoutInflater
 import com.example.firstapp.BoardItem
 import androidx.recyclerview.widget.RecyclerView
@@ -9,7 +12,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.view.View
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.startActivity
 
 class BoardAdapter(private val itemList: ArrayList<BoardItem>) :
@@ -17,6 +22,7 @@ class BoardAdapter(private val itemList: ArrayList<BoardItem>) :
 
     interface OnItemClickListener {
         fun onItemClick(position: Int) {}
+        fun onCallClick(number: String) {}
     }
 
     var itemClickListener: OnItemClickListener? = null
@@ -40,11 +46,14 @@ class BoardAdapter(private val itemList: ArrayList<BoardItem>) :
         val name = itemView.findViewById<TextView>(R.id.name)
         val phone = itemView.findViewById<TextView>(R.id.phone)
         val email = itemView.findViewById<TextView>(R.id.email)
-        val button: Button = itemView.findViewById(R.id.call_btn)
-
+        val button : ImageButton = itemView.findViewById<ImageButton>(R.id.call_btn)
         init {
             itemView.setOnClickListener{
                 itemClickListener?.onItemClick(adapterPosition)
+            }
+            button.setOnClickListener{
+                Toast.makeText(itemView.context, "call ${phone.text}}", Toast.LENGTH_SHORT).show()
+                itemClickListener?.onCallClick(phone.text as String)
             }
         }
     }

@@ -1,14 +1,19 @@
 package com.example.firstapp.ui.phonebook
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.AssetManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
@@ -83,6 +88,24 @@ class PhonebookFragment : Fragment()  {
                 val intent = Intent(context, PhoneDetailActivity::class.java)
                 intent.putExtra("index", position)
                 startActivity(intent)
+            }
+
+            override fun onCallClick(number: String) {
+                val callIntent = Intent(Intent.ACTION_CALL)
+                callIntent.data = Uri.parse("tel:$number")
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+                        // 권한이 이미 허용된 경우
+                        startActivity(callIntent)
+                    } else {
+                        // 권한 요청
+                        ActivityCompat.requestPermissions(context, arrayOf(Manifest.permission.CALL_PHONE), 1)
+                    }
+                } else {
+                    // 안드로이드 6.0 미만인 경우 권한이 허용되어 있다고 가정
+                    startActivity(callIntent)
+                }
             }
         }
 
