@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.firstapp.Album
 import com.example.firstapp.ImageAdapter
@@ -21,14 +22,16 @@ class AlbumDetailsFragment : Fragment() {
         _binding = FragmentAlbumDetailsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-//        val args: AlbumDetailsFragmentArgs by navArgs()
-//        val album: Album? = args.album
-//
-//        if (album != null) {
-//            // Use the album data to display the images or perform any other required operations
-//            val rvBoard : RecyclerView = binding.albumDetails
-//            val adapter = ImageAdapter(album.imageList)
-//        }
+        val args: AlbumDetailsFragmentArgs by navArgs()
+        val album: Album? = args.album
+
+        if (album != null) {
+            // Use the album data to display the images or perform any other required operations
+            val rvBoard : RecyclerView = binding.albumDetails
+            val adapter = ImageAdapter(album.imageList)
+            rvBoard.adapter = adapter
+            rvBoard.layoutManager = GridLayoutManager(requireContext(), 3)
+        }
 
         return root
     }
