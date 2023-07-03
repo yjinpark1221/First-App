@@ -2,9 +2,12 @@
     <string name="app_name">FirstApp</string>
     <string name="title_phonebook">연락처</string>
     <string name="title_dashboard">갤러리</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_minesweeper">지뢰찾기</string>
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="save">Save</string>
+    <string name="start">Start</string>
+    <string name="easy">easy</string>
+    <string name="hard">hard</string>
     <string name="recycler_count">개의 연락처</string>
 
     <!-- Preference Titles -->
@@ -66,6 +69,12 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+
+    <style name="SquareButtonStyle">
+        <item name="android:background">@drawable/button_border</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">20sp</item>
+    </style>
 
     <string name="title_activity_fullscreen">FullscreenActivity</string>
     <string name="dummy_button">Dummy Button</string>
