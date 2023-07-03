@@ -12,7 +12,14 @@ import android.widget.GridView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.firstapp.Album
+import com.example.firstapp.AlbumAdapter
+import com.example.firstapp.BoardItem
 import com.example.firstapp.ImageAdapter
+import com.example.firstapp.R
 import com.example.firstapp.databinding.FragmentDashboardBinding
 
 
@@ -35,15 +42,21 @@ class DashboardFragment : Fragment() {
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val gridView: GridView = binding.gridView
-        val adapter = ImageAdapter(requireContext())
-        gridView.adapter = adapter
-//        val textView: TextView = binding.textDashboard
-//        dashboardViewModel.text.observe(viewLifecycleOwner) {
-//            textView.text = it
-//        }
-//        val myButton: Button = binding.myButton
-//        myButton.setOnClickListener(View.OnClickListener { myButton.setBackgroundColor(0) })
+        val albumList = ArrayList<Album>()// Obtain your list of albums here
+        val dogImages = listOf(R.drawable.image_1, R.drawable.image_1, R.drawable.image_1, R.drawable.image_1)
+        val catImages = listOf(R.drawable.image_2, R.drawable.image_2, R.drawable.image_2, R.drawable.image_2, R.drawable.image_2)
+
+        albumList.add(Album("Dog", dogImages))
+        albumList.add(Album("Cat", catImages))
+        albumList.add(Album("Cat2", catImages))
+
+
+
+        val rvBoard : RecyclerView = binding.rvBoard
+        val albumAdapter = AlbumAdapter(albumList)
+        rvBoard.adapter = albumAdapter
+        rvBoard.layoutManager = GridLayoutManager(requireContext(), 2)
+
         return root
     }
 

@@ -1,45 +1,39 @@
 package com.example.firstapp
 
+import android.app.Dialog
 import android.content.Context
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.view.Window
 import android.widget.BaseAdapter
 import android.widget.GridView
 import android.widget.ImageView
+import androidx.recyclerview.widget.RecyclerView
 
-class ImageAdapter(private val mContext: Context) : BaseAdapter() {
+class ImageAdapter(private val imageList: List<Int>) :
+    RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
 
-    private val imageArray = intArrayOf(
-        R.drawable.image_1, R.drawable.image_2, R.drawable.image_2, R.drawable.image_2,
-        R.drawable.image_2, R.drawable.image_2, R.drawable.image_2, R.drawable.image_2
-        , R.drawable.image_2, R.drawable.image_2, R.drawable.image_2, R.drawable.image_2
-        , R.drawable.image_2, R.drawable.image_2, R.drawable.image_2, R.drawable.image_2
-    )
-
-    override fun getCount(): Int {
-        return imageArray.size
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_image, parent, false)
+        return ViewHolder(view)
     }
 
-    override fun getItem(position: Int): Any {
-        return imageArray[position]
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val imageResource = imageList[position]
+        holder.bind(imageResource)
     }
 
-    override fun getItemId(position: Int): Long {
-        return 0
+    override fun getItemCount(): Int {
+        return imageList.size
     }
 
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val imageView: ImageView
-        if (convertView == null) {
-            imageView = ImageView(mContext)
-            imageView.layoutParams = ViewGroup.LayoutParams(340, 350) // Replace with your desired width and height values
-            imageView.scaleType = ImageView.ScaleType.CENTER_CROP
-        } else {
-            imageView = convertView as ImageView
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val imageView: ImageView = itemView.findViewById(R.id.imageView)
+
+        fun bind(imageResource: Int) {
+            imageView.setImageResource(imageResource)
         }
-
-        imageView.setImageResource(imageArray[position])
-        return imageView
     }
-
 }
