@@ -46,7 +46,9 @@ class BoardAdapter(private val itemList: ArrayList<BoardItem>) :
         val name = itemView.findViewById<TextView>(R.id.name)
         val phone = itemView.findViewById<TextView>(R.id.phone)
         val email = itemView.findViewById<TextView>(R.id.email)
+
         val button : ImageButton = itemView.findViewById<ImageButton>(R.id.call_btn)
+
         init {
             itemView.setOnClickListener{
                 itemClickListener?.onItemClick(adapterPosition)
