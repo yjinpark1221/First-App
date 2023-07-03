@@ -8,7 +8,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-//import com.example.firstapp.ui.dashboard.DashboardFragmentDirections
+import com.example.firstapp.ui.dashboard.DashboardFragmentDirections
 
 class AlbumAdapter(private val albumList: List<Album>) :
     RecyclerView.Adapter<AlbumAdapter.ViewHolder>() {
@@ -40,7 +40,17 @@ class AlbumAdapter(private val albumList: List<Album>) :
 
             val imageAdapter = ImageAdapter(album.imageList)
             imageRecyclerView.adapter = imageAdapter
+
+            itemView.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val clickedAlbum = albumList[position]
+                    val action = DashboardFragmentDirections.actionDashboardFragmentToAlbumDetailsFragment(clickedAlbum)
+                    itemView.findNavController().navigate(action)
+                }
+            }
         }
+
 
 //        fun onClick(v: View?) {
 //            val position = adapterPosition
