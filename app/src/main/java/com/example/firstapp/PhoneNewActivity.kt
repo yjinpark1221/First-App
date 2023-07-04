@@ -3,12 +3,15 @@ package com.example.firstapp
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.example.firstapp.ui.phonebook.PhonebookFragment
 import java.util.regex.Pattern
 
@@ -61,10 +64,32 @@ class PhoneNewActivity : AppCompatActivity() {
         })
 
         saveBtn.setOnClickListener{
-            savePhone(nameBuffer, phoneBuffer, emailBuffer)
+            trySave(nameBuffer, phoneBuffer, emailBuffer)
         }
     }
 
+    fun trySave(name : String, phone : String, email : String) {
+        for (item in PhonebookFragment.itemList) {
+            if (item.name == name) {
+                val alertDialogBuilder = AlertDialog.Builder(this)
+                alertDialogBuilder.setTitle("연락처 이름 중복")
+                alertDialogBuilder.setMessage("'$name'(이)라는 이름의 연락처가 이미 있습니다. 덮어 쓰시겠습니까?")
+
+                alertDialogBuilder.setPositiveButton("예") { dialog, which ->
+                    PhonebookFragment.itemList.remove(item)
+                    savePhone(name, phone, email)
+                }
+
+                alertDialogBuilder.setNegativeButton("아니오") { dialog, which ->
+                }
+
+                val alertDialog = alertDialogBuilder.create()
+                alertDialog.show()
+                return
+            }
+        }
+        savePhone(name, phone, email)
+    }
     private fun savePhone(name : String, phone : String, email : String) {
         val newItem = BoardItem(name, phone, email)
         PhonebookFragment.itemList.add(newItem)

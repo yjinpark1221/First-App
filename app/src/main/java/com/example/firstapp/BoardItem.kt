@@ -1,5 +1,9 @@
 package com.example.firstapp
 
-import android.graphics.drawable.Drawable
+data class BoardItem(val name: String, val phone: String, val email: String): Comparable<BoardItem> {
+    var isVisible: Boolean = true
 
-data class BoardItem(val name: String, val phone: String, val email: String)
+    override fun compareTo(other: BoardItem): Int {
+        return this.name.compareTo(other.name)
+    }
+}
