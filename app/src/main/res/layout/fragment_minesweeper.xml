@@ -39,8 +39,10 @@
         android:layout_weight="1"
         android:padding="10dp"
         app:layout_constraintBottom_toTopOf="@+id/linear_layout2"
-        app:layout_constraintTop_toBottomOf="@+id/toggleButtonGroup" />
+        app:layout_constraintTop_toBottomOf="@+id/toggleButtonGroup">
     </GridLayout>
+
+
 
     <LinearLayout
         android:id="@+id/linear_layout2"
@@ -49,6 +51,18 @@
         android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/grid_layout"
         app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView
+            android:id="@+id/bombTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sevensegment"
+            android:textSize="40sp"
+            android:layout_margin="20dp"
+            android:padding="10dp"
+            android:background="@color/black"
+            android:textColor="#CCFF0000"
+            android:text="000"/>
 
         <Button
             android:id="@+id/start_btn"
@@ -70,8 +84,7 @@
             android:padding="10dp"
             android:background="@color/black"
             android:textColor="#CCFF0000"
-            android:textStyle="bold"
-            android:text="00:00"/>
+            android:text="000"/>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
