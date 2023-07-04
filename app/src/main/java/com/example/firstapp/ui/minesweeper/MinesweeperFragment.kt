@@ -21,6 +21,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.firstapp.R
 import com.example.firstapp.databinding.FragmentMinesweeperBinding
 import java.sql.Types.NULL
+import java.util.Locale
+import java.util.Timer
+import java.util.TimerTask
+import kotlin.concurrent.timer
 import kotlin.random.Random
 
 class MinesweeperFragment : Fragment() {
@@ -41,6 +45,11 @@ class MinesweeperFragment : Fragment() {
     var mineCnt = 0
     lateinit var borderDrawable : Drawable
     lateinit var borderDrawableDarker : Drawable
+
+    // timer
+    private var sec: Int = 0
+    private var timerTask: TimerTask? = null
+    private val timer: Timer = Timer()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,6 +73,7 @@ class MinesweeperFragment : Fragment() {
             startBtn.isEnabled = false
             easyBtn.isEnabled = false
             hardBtn.isEnabled = false
+            startTimer()
         }
         startBtn.isEnabled = false
 
@@ -80,7 +90,6 @@ class MinesweeperFragment : Fragment() {
             mineCnt = 10
             startBtn.isEnabled = true
         }
-
         return root
     }
 
@@ -121,6 +130,7 @@ class MinesweeperFragment : Fragment() {
                 button.background = borderDrawable
                 button.layoutParams = params
                 gridLayout.addView(button)
+
                 button.isEnabled = false
                 button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25f)
                 button.setTypeface(null, Typeface.BOLD)
@@ -265,6 +275,7 @@ class MinesweeperFragment : Fragment() {
     // TODO : lose시 전체 지뢰 공개, 결과 기록
     fun lose() {
         Toast.makeText(this.context, "lose...", Toast.LENGTH_SHORT).show()
+        stopTimer()
         endGame()
     }
     fun win() {
@@ -295,6 +306,37 @@ class MinesweeperFragment : Fragment() {
         startBtn.isEnabled = true
         easyBtn.isEnabled = true
         hardBtn.isEnabled = true
+        stopTimer()
+    }
+
+    private fun startTimer() {
+        sec = 0
+
+        // Schedule a task to update the timer every second
+        timerTask = object : TimerTask() {
+            override fun run() {
+                sec++
+                // Update the UI on the main thread
+                activity?.runOnUiThread {
+                    // Update the timer text view with the elapsed time
+                    binding.timerTextView.text = formatTime(sec)
+                }
+            }
+        }
+
+        timer.scheduleAtFixedRate(timerTask, 0, 1000)
+    }
+
+    private fun stopTimer() {
+        // Cancel the timer task if it's running
+        timerTask?.cancel()
+    }
+
+    private fun formatTime(seconds: Int): String {
+        val minutes = seconds / 60
+        val remainingSeconds = seconds % 60
+        return String.format(Locale.getDefault(), "  %02d:%02d", minutes, remainingSeconds)
+
         for (i in 0 until row) {
             for (j in 0 until col) {
                 val button = getButton(i, j)
@@ -307,6 +349,7 @@ class MinesweeperFragment : Fragment() {
     }
     override fun onDestroyView() {
         super.onDestroyView()
+        stopTimer()
         _binding = null
     }
 }
