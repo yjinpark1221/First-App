@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
@@ -25,10 +26,16 @@ class PhoneDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_phone_detail)
 
-        index = intent.getIntExtra("index", -1)
-        Toast.makeText(this, "${index}", Toast.LENGTH_SHORT).show()
-        item = PhonebookFragment.itemList[index]
+        val name = intent.getStringExtra("name")
+        val phone = intent.getStringExtra("phone")
+        val email = intent.getStringExtra("email")
 
+        for (i in 0 until PhonebookFragment.itemList.size) {
+            if (PhonebookFragment.itemList[i].name == name) {
+                index = i
+                item = PhonebookFragment.itemList[index]
+            }
+        }
 
         var editToggle = false
         val editBtn : Button = findViewById(R.id.detail_edit_btn)
@@ -82,7 +89,7 @@ class PhoneDetailActivity : AppCompatActivity() {
         editBtn.setOnClickListener{
             if (editToggle) {
                 Toast.makeText(this, "${isValid(nameBuffer, phoneBuffer, emailBuffer)}", Toast.LENGTH_SHORT).show()
-                editPhone(nameBuffer, phoneBuffer, emailBuffer)
+                tryEdit(nameBuffer, phoneBuffer, emailBuffer)
                 editToggle = false
                 nameInput.isEnabled = false
                 phoneInput.isEnabled = false
@@ -109,9 +116,36 @@ class PhoneDetailActivity : AppCompatActivity() {
         }
     }
 
+
+    private fun tryEdit(name : String, phone : String, email : String) {
+        for (i in 0 until PhonebookFragment.itemList.size) {
+            if (i == index) continue
+            val tmpItem = PhonebookFragment.itemList[i]
+            if (tmpItem.name == name) {
+                val alertDialogBuilder = AlertDialog.Builder(this)
+                alertDialogBuilder.setTitle("연락처 이름 중복")
+                alertDialogBuilder.setMessage("'$name'(이)라는 이름의 연락처가 이미 있습니다. 덮어 쓰시겠습니까?")
+
+                alertDialogBuilder.setPositiveButton("예") { dialog, which ->
+                    Toast.makeText(this, "${tmpItem.name} ${tmpItem.phone} ${PhonebookFragment.itemList.indexOf(tmpItem)}", Toast.LENGTH_SHORT).show()
+                    PhonebookFragment.itemList.remove(tmpItem)
+                    editPhone(name, phone, email)
+                }
+
+                alertDialogBuilder.setNegativeButton("아니오") { dialog, which ->
+                }
+
+                val alertDialog = alertDialogBuilder.create()
+                alertDialog.show()
+                return
+            }
+        }
+        editPhone(name, phone, email)
+    }
+
     private fun editPhone(name : String, phone : String, email : String) {
-        val newItem = BoardItem(name, phone, email)
-        PhonebookFragment.itemList[index] = newItem
+        val newIndex = PhonebookFragment.itemList.indexOf(item)
+        PhonebookFragment.itemList[newIndex] = BoardItem(name, phone, email)
     }
 
     fun checkEmail(email : String) : Boolean{

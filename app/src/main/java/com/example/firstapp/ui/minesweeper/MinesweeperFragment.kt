@@ -75,9 +75,9 @@ class MinesweeperFragment : Fragment() {
         }
 
         hardBtn.setOnClickListener{
-            row = 7
-            col = 6
-            mineCnt = 10
+            row = 8
+            col = 7
+            mineCnt = 11
             startBtn.isEnabled = true
         }
 
@@ -97,6 +97,7 @@ class MinesweeperFragment : Fragment() {
     }
 
     fun startGame(row: Int, col: Int, mine: Int) {
+        startBtn.text = "🙂"
         leftCnt = row * col - mine
         val gridLayout = binding.gridLayout
 
@@ -262,18 +263,17 @@ class MinesweeperFragment : Fragment() {
         }
     }
 
-    // TODO : lose시 전체 지뢰 공개, 결과 기록
     fun lose() {
-        Toast.makeText(this.context, "lose...", Toast.LENGTH_SHORT).show()
+        startBtn.text = "😖"
         endGame()
     }
     fun win() {
-        Toast.makeText(this.context, "win!!!", Toast.LENGTH_SHORT).show()
+        startBtn.text = "😎"
         endGame()
     }
 
     fun openMine(button : Button) {
-        button.text = "✹"
+        button.text = "💣"
         button.background = borderDrawableDarker
         button.setTextColor(Color.BLACK)
     }
