@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
     android:paddingBottom="?attr/actionBarSize"
     tools:context=".ui.minesweeper.MinesweeperFragment">
 
@@ -35,26 +34,38 @@
             app:layout_constraintTop_toBottomOf="@id/grid_layout" />
     </LinearLayout>
 
+
     <GridLayout
         android:id="@+id/grid_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:padding="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/start_btn"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"></GridLayout>
+        app:layout_constraintBottom_toTopOf="@+id/linear_layout2"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" </GridLayout>
 
-    <Button
-        android:id="@+id/start_btn"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linear_layout2"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="🙂"
-        android:textSize="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/grid_layout" />
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/grid_layout"
+        app:layout_constraintBottom_toBottomOf="parent">
 
+        <Button
+            android:id="@+id/start_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🙂"
+            android:textSize="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:id="@+id/timerTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
