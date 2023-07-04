@@ -64,13 +64,16 @@
             android:textColor="#CCFF0000"
             android:text="000"/>
 
-        <Button
+        <android.widget.Button
             android:id="@+id/start_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
             android:text="🙂"
-            android:textSize="50dp"
+            android:textSize="40sp"
+            android:background="@drawable/upopened_square"
+            android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"/>
 

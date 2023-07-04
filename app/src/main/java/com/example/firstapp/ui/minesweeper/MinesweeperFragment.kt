@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.GridLayout
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -62,17 +63,20 @@ class MinesweeperFragment : Fragment() {
 
         _binding = FragmentMinesweeperBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        borderDrawable = resources.getDrawable(R.drawable.button_border)
+        borderDrawable = resources.getDrawable(R.drawable.upopened_square)
         borderDrawableDarker = resources.getDrawable(R.drawable.button_border_darker)
 
         startBtn = binding.startBtn
         easyBtn = binding.easyBtn
         hardBtn = binding.hardBtn
+        startBtn.setBackgroundResource(R.drawable.upopened_square)
 
 //        binding.timerTextView.setVisibility(View.INVISIBLE)
         startBtn.setOnClickListener{
             startGame(row, col, mineCnt)
             startBtn.isEnabled = false
+            startBtn.background = borderDrawableDarker
+
             easyBtn.isEnabled = false
             hardBtn.isEnabled = false
 //            binding.timerTextView.setVisibility(View.VISIBLE)
@@ -80,11 +84,21 @@ class MinesweeperFragment : Fragment() {
         }
 
 
+
+
         binding.toggleButtonGroup.addOnButtonCheckedListener{ toggleButtonGroup, checkedId, isChecked ->
             if (isChecked) {
                 when (checkedId) {
-                    R.id.easy_btn -> {row = 5; col = 5; mineCnt = 6; startBtn.isEnabled = true}
-                    R.id.hard_btn -> {row = 7; col = 6; mineCnt = 10; startBtn.isEnabled = true}
+                    R.id.easy_btn -> {
+                        row = 5
+                        col = 5
+                        mineCnt = 6
+                        startBtn.isEnabled = true
+                    }
+                    R.id.hard_btn -> {
+                        row = 7; col = 6; mineCnt = 10;
+                        startBtn.isEnabled = true
+                    }
                 }
             }
         }
@@ -132,6 +146,7 @@ class MinesweeperFragment : Fragment() {
                 val idx = i * col + j
                 val button = Button(this.context, null, R.style.SquareButtonStyle)
 
+//                val imgbutton = ImageButton(this.activity, null, R.drawable.upopened_square)
                 val params = GridLayout.LayoutParams().apply {
                     rowSpec = GridLayout.spec(i)
                     columnSpec = GridLayout.spec(j)
@@ -141,7 +156,7 @@ class MinesweeperFragment : Fragment() {
                 }
 
                 button.gravity = Gravity.CENTER
-                button.background = borderDrawable
+                button.setBackgroundResource(R.drawable.upopened_square)
                 button.layoutParams = params
                 gridLayout.addView(button)
 
@@ -159,7 +174,7 @@ class MinesweeperFragment : Fragment() {
                         }
                         MotionEvent.ACTION_UP -> {
                             if (button.isEnabled == true)
-                                button.background = borderDrawable
+                                button.setBackgroundResource(R.drawable.upopened_square)
                         }
                     }
                     false
@@ -200,7 +215,7 @@ class MinesweeperFragment : Fragment() {
                     mineMap[i][j] = -1
                 }
                 button.text = ""
-                button.background = borderDrawable
+                button.setBackgroundResource(R.drawable.upopened_square)
             }
         }
         for (i in 0 until row) {
@@ -321,6 +336,7 @@ class MinesweeperFragment : Fragment() {
 
     fun endGame() {
         startBtn.isEnabled = true
+        startBtn.setBackgroundResource(R.drawable.upopened_square)
         easyBtn.isEnabled = true
         hardBtn.isEnabled = true
         stopTimer()
