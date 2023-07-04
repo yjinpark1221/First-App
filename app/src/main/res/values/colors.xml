@@ -21,4 +21,5 @@
     <color name="dark_blue_overlay">    #CC343E87</color>
     <color name="bright_blue_overlay">  #CC5D5AD9</color>
     <color name="greenish_blue_overlay">#CC1895A3</color>
+    <color name="red">#CCA31818</color>
 </resources>
