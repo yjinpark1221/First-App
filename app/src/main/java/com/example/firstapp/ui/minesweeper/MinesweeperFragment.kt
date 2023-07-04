@@ -39,10 +39,10 @@ class MinesweeperFragment : Fragment() {
     lateinit var startBtn : Button
     lateinit var easyBtn : Button
     lateinit var hardBtn : Button
-    var row = 0
-    var col = 0
+    var row = 5
+    var col = 5
     var leftCnt = 0
-    var mineCnt = 0
+    var mineCnt = 6
     lateinit var borderDrawable : Drawable
     lateinit var borderDrawableDarker : Drawable
 
@@ -68,28 +68,39 @@ class MinesweeperFragment : Fragment() {
         easyBtn = binding.easyBtn
         hardBtn = binding.hardBtn
 
+//        binding.timerTextView.setVisibility(View.INVISIBLE)
+
         startBtn.setOnClickListener{
             startGame(row, col, mineCnt)
             startBtn.isEnabled = false
             easyBtn.isEnabled = false
             hardBtn.isEnabled = false
+//            binding.timerTextView.setVisibility(View.VISIBLE)
             startTimer()
         }
-        startBtn.isEnabled = false
 
-        easyBtn.setOnClickListener{
-            row = 5
-            col = 5
-            mineCnt = 6
-            startBtn.isEnabled = true
-        }
 
-        hardBtn.setOnClickListener{
-            row = 8
-            col = 7
-            mineCnt = 11
-            startBtn.isEnabled = true
+        binding.toggleButtonGroup.addOnButtonCheckedListener{ toggleButtonGroup, checkedId, isChecked ->
+            if (isChecked) {
+                when (checkedId) {
+                    R.id.easy_btn -> {row = 5; col = 5; mineCnt = 6; startBtn.isEnabled = true}
+                    R.id.hard_btn -> {row = 7; col = 6; mineCnt = 10; startBtn.isEnabled = true}
+                }
+            }
         }
+//        easyBtn.setOnClickListener{
+//            row = 5
+//            col = 5
+//            mineCnt = 6
+//            startBtn.isEnabled = true
+//        }
+
+//        hardBtn.setOnClickListener{
+//            row = 7
+//            col = 6
+//            mineCnt = 10
+//            startBtn.isEnabled = true
+//        }
         return root
     }
 
@@ -335,7 +346,7 @@ class MinesweeperFragment : Fragment() {
     private fun formatTime(seconds: Int): String {
         val minutes = seconds / 60
         val remainingSeconds = seconds % 60
-        return String.format(Locale.getDefault(), "  %02d:%02d", minutes, remainingSeconds)
+        return String.format(Locale.getDefault(), "%02d:%02d", minutes, remainingSeconds)
 
         for (i in 0 until row) {
             for (j in 0 until col) {

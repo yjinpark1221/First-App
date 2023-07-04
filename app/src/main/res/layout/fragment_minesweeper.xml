@@ -7,32 +7,29 @@
     android:paddingBottom="?attr/actionBarSize"
     tools:context=".ui.minesweeper.MinesweeperFragment">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/toggleButtonGroup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:singleSelection="true"
         android:gravity="center"
-        app:layout_constraintBottom_toTopOf="parent"
-        app:layout_constraintTop_toTopOf="@id/grid_layout">
+        app:layout_constraintTop_toTopOf="parent"
+        app:checkedButton="@id/easy_btn">
 
         <Button
             android:id="@+id/easy_btn"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/easy"
-            android:layout_margin="3dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/grid_layout" />
+            android:text="@string/easy"/>
 
         <Button
             android:id="@+id/hard_btn"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-            android:text="@string/hard"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/grid_layout" />
-    </LinearLayout>
+            android:text="@string/hard"/>
+    </com.google.android.material.button.MaterialButtonToggleGroup>
 
 
     <GridLayout
@@ -42,7 +39,8 @@
         android:layout_weight="1"
         android:padding="10dp"
         app:layout_constraintBottom_toTopOf="@+id/linear_layout2"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" </GridLayout>
+        app:layout_constraintTop_toBottomOf="@+id/toggleButtonGroup" />
+    </GridLayout>
 
     <LinearLayout
         android:id="@+id/linear_layout2"
@@ -65,7 +63,15 @@
         <TextView
             android:id="@+id/timerTextView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/sevensegment"
+            android:textSize="40sp"
+            android:layout_margin="20dp"
+            android:padding="10dp"
+            android:background="@color/black"
+            android:textColor="#CCFF0000"
+            android:textStyle="bold"
+            android:text="00:00"/>
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
