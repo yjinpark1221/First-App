@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.GridLayout
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -43,6 +44,7 @@ class MinesweeperFragment : Fragment() {
     var col = 5
     var leftCnt = 0
     var mineCnt = 6
+    var userCnt = 0
     lateinit var borderDrawable : Drawable
     lateinit var borderDrawableDarker : Drawable
 
@@ -61,18 +63,20 @@ class MinesweeperFragment : Fragment() {
 
         _binding = FragmentMinesweeperBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        borderDrawable = resources.getDrawable(R.drawable.button_border)
+        borderDrawable = resources.getDrawable(R.drawable.upopened_square)
         borderDrawableDarker = resources.getDrawable(R.drawable.button_border_darker)
 
         startBtn = binding.startBtn
         easyBtn = binding.easyBtn
         hardBtn = binding.hardBtn
+        startBtn.setBackgroundResource(R.drawable.upopened_square)
 
 //        binding.timerTextView.setVisibility(View.INVISIBLE)
-
         startBtn.setOnClickListener{
             startGame(row, col, mineCnt)
             startBtn.isEnabled = false
+            startBtn.background = borderDrawableDarker
+
             easyBtn.isEnabled = false
             hardBtn.isEnabled = false
 //            binding.timerTextView.setVisibility(View.VISIBLE)
@@ -80,11 +84,21 @@ class MinesweeperFragment : Fragment() {
         }
 
 
+
+
         binding.toggleButtonGroup.addOnButtonCheckedListener{ toggleButtonGroup, checkedId, isChecked ->
             if (isChecked) {
                 when (checkedId) {
-                    R.id.easy_btn -> {row = 5; col = 5; mineCnt = 6; startBtn.isEnabled = true}
-                    R.id.hard_btn -> {row = 7; col = 6; mineCnt = 10; startBtn.isEnabled = true}
+                    R.id.easy_btn -> {
+                        row = 5
+                        col = 5
+                        mineCnt = 6
+                        startBtn.isEnabled = true
+                    }
+                    R.id.hard_btn -> {
+                        row = 7; col = 6; mineCnt = 10;
+                        startBtn.isEnabled = true
+                    }
                 }
             }
         }
@@ -119,6 +133,8 @@ class MinesweeperFragment : Fragment() {
     fun startGame(row: Int, col: Int, mine: Int) {
         startBtn.text = "🙂"
         leftCnt = row * col - mine
+        userCnt = mine
+        binding.bombTextView.setText(threeDigits(userCnt.toString()))
         val gridLayout = binding.gridLayout
 
         // TODO : 난이도 같은 경우 그리드 재활용하기
@@ -130,6 +146,7 @@ class MinesweeperFragment : Fragment() {
                 val idx = i * col + j
                 val button = Button(this.context, null, R.style.SquareButtonStyle)
 
+//                val imgbutton = ImageButton(this.activity, null, R.drawable.upopened_square)
                 val params = GridLayout.LayoutParams().apply {
                     rowSpec = GridLayout.spec(i)
                     columnSpec = GridLayout.spec(j)
@@ -139,7 +156,7 @@ class MinesweeperFragment : Fragment() {
                 }
 
                 button.gravity = Gravity.CENTER
-                button.background = borderDrawable
+                button.setBackgroundResource(R.drawable.upopened_square)
                 button.layoutParams = params
                 gridLayout.addView(button)
 
@@ -157,7 +174,7 @@ class MinesweeperFragment : Fragment() {
                         }
                         MotionEvent.ACTION_UP -> {
                             if (button.isEnabled == true)
-                                button.background = borderDrawable
+                                button.setBackgroundResource(R.drawable.upopened_square)
                         }
                     }
                     false
@@ -173,9 +190,13 @@ class MinesweeperFragment : Fragment() {
                 button.setOnLongClickListener {
                     if (button.text == "🚩") {
                         eraseFlag(i, j)
+                        userCnt++
+                        binding.bombTextView.setText(threeDigits(userCnt.toString()))
                     }
                     else {
                         markFlag(i, j)
+                        userCnt--
+                        binding.bombTextView.setText(threeDigits(userCnt.toString()))
                     }
                     true
                 }
@@ -194,7 +215,7 @@ class MinesweeperFragment : Fragment() {
                     mineMap[i][j] = -1
                 }
                 button.text = ""
-                button.background = borderDrawable
+                button.setBackgroundResource(R.drawable.upopened_square)
             }
         }
         for (i in 0 until row) {
@@ -315,26 +336,35 @@ class MinesweeperFragment : Fragment() {
 
     fun endGame() {
         startBtn.isEnabled = true
+        startBtn.setBackgroundResource(R.drawable.upopened_square)
         easyBtn.isEnabled = true
         hardBtn.isEnabled = true
         stopTimer()
+        for (i in 0 until row) {
+            for (j in 0 until col) {
+                val button = getButton(i, j)
+                button.isEnabled = false
+                if (mineMap[i][j] == -1) {
+                    openMine(button)
+                }
+            }
+        }
     }
 
     private fun startTimer() {
-        sec = 0
+        sec = -1
 
         // Schedule a task to update the timer every second
         timerTask = object : TimerTask() {
             override fun run() {
-                sec++
                 // Update the UI on the main thread
                 activity?.runOnUiThread {
                     // Update the timer text view with the elapsed time
-                    binding.timerTextView.text = formatTime(sec)
+                    binding.timerTextView.text = threeDigits(sec.toString())
                 }
+                if (sec < 999) sec++
             }
         }
-
         timer.scheduleAtFixedRate(timerTask, 0, 1000)
     }
 
@@ -347,17 +377,15 @@ class MinesweeperFragment : Fragment() {
         val minutes = seconds / 60
         val remainingSeconds = seconds % 60
         return String.format(Locale.getDefault(), "%02d:%02d", minutes, remainingSeconds)
-
-        for (i in 0 until row) {
-            for (j in 0 until col) {
-                val button = getButton(i, j)
-                button.isEnabled = false
-                if (mineMap[i][j] == -1) {
-                    openMine(button)
-                }
-            }
-        }
     }
+
+    private fun threeDigits(value: String): String {
+        var ret: String = "000"
+        if (value.length == 1) ret = "00" + value
+        else if (value.length == 2) ret = "0" + value
+        return ret
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         stopTimer()

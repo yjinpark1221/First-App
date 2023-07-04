@@ -71,7 +71,7 @@
     </string>
 
     <style name="SquareButtonStyle">
-        <item name="android:background">@drawable/button_border</item>
+        <item name="android:background">@drawable/upopened_square</item>
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:textSize">30sp</item>
         <item name="android:textStyle">bold</item>
