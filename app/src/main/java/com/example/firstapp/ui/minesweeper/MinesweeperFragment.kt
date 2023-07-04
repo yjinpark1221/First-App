@@ -2,11 +2,14 @@ package com.example.firstapp.ui.minesweeper
 
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.ShapeDrawable
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -92,6 +95,7 @@ class MinesweeperFragment : Fragment() {
         }
         return randomNumbers
     }
+
     fun startGame(row: Int, col: Int, mine: Int) {
         leftCnt = row * col - mine
         val gridLayout = binding.gridLayout
@@ -116,12 +120,42 @@ class MinesweeperFragment : Fragment() {
                 button.gravity = Gravity.CENTER
                 button.background = borderDrawable
                 button.layoutParams = params
-                button.setPadding(8, 8, 8, 8)
                 gridLayout.addView(button)
                 button.isEnabled = false
+                button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25f)
+                button.setTypeface(null, Typeface.BOLD)
+
                 btns.add(button)
+
+                button.setOnTouchListener { _, event ->
+                    when (event.action) {
+                        MotionEvent.ACTION_DOWN -> {
+                            if (button.isEnabled == true)
+                                button.background = borderDrawableDarker
+                        }
+                        MotionEvent.ACTION_UP -> {
+                            if (button.isEnabled == true)
+                                button.background = borderDrawable
+                        }
+                    }
+                    false
+                }
+
                 button.setOnClickListener {
-                    open(button, i, j)
+                    if (button.text == "🚩") {
+                    }
+                    else if (open(i, j) == 0) {
+                        lose()
+                    }
+                }
+                button.setOnLongClickListener {
+                    if (button.text == "🚩") {
+                        eraseFlag(i, j)
+                    }
+                    else {
+                        markFlag(i, j)
+                    }
+                    true
                 }
             }
         }
@@ -132,7 +166,7 @@ class MinesweeperFragment : Fragment() {
         for (i in 0 until row) {
             for (j in 0 until col) {
                 val idx = i * col + j
-                val button = btns[idx]
+                val button = getButton(i, j)
                 button.isEnabled = true
                 if (mineIdxs.contains(idx)) {
                     mineMap[i][j] = -1
@@ -164,23 +198,53 @@ class MinesweeperFragment : Fragment() {
         return (0 <= i && i < row) && (0 <= j && j < col)
     }
 
-    // TODO : mineMap이 0인 경우 색 더 진하게
     // mineMap 이 -1이면 지뢰, -2이면 already opened
-    fun open(view: Button, i: Int, j: Int) {
-        if (mineMap[i][j] == -2) return
+    fun open(i: Int, j: Int) : Int {
+        val button = getButton(i, j)
+        button.isEnabled = false
+        if (mineMap[i][j] == -2) return -1
 
-        view.background = borderDrawableDarker
-        view.setTextColor(Color.WHITE)
-        view.text = mineMap[i][j].toString()
+        button.background = borderDrawableDarker
 
         if (mineMap[i][j] == -1) {
-            lose()
+            openMine(button)
+            return 0
         }
         else {
+            when (mineMap[i][j]) {
+                1 -> {
+                    button.setTextColor(Color.rgb(0, 0, 230))
+                }
+                2 -> {
+                    button.setTextColor(Color.rgb(0, 127, 0))
+                }
+                3 -> {
+                    button.setTextColor(Color.rgb(230, 0, 0))
+                }
+                4 -> {
+                    button.setTextColor(Color.rgb(0, 0, 127))
+                }
+                5 -> {
+                    button.setTextColor(Color.rgb(127, 63, 0))
+                }
+                6 -> {
+                    button.setTextColor(Color.rgb(0, 127, 127))
+                }
+                7 -> {
+                    button.setTextColor(Color.rgb(0, 0, 0))
+                }
+                8 -> {
+                    button.setTextColor(Color.rgb(63, 63, 63))
+                }
+                else -> {
+                }
+            }
+            button.text = mineMap[i][j].toString()
             --leftCnt
             if (leftCnt == 0) win()
 
             if (mineMap[i][j] == 0) {
+                button.text = ""
                 mineMap[i][j] = -2
                 for (dx in -1 until 2) {
                     for (dy in -1 until 2) {
@@ -188,29 +252,59 @@ class MinesweeperFragment : Fragment() {
                         val ni = i + dx
                         val nj = j + dy
                         if (inMap(ni, nj, row, col)) {
-                            open(btns[ni * col + nj], ni, nj)
+                            open(ni, nj)
                         }
                     }
                 }
             }
             mineMap[i][j] = -2
+            return 1
         }
     }
 
     // TODO : lose시 전체 지뢰 공개, 결과 기록
     fun lose() {
         Toast.makeText(this.context, "lose...", Toast.LENGTH_SHORT).show()
-        startBtn.isEnabled = true
-        easyBtn.isEnabled = true
-        hardBtn.isEnabled = true
+        endGame()
     }
     fun win() {
         Toast.makeText(this.context, "win!!!", Toast.LENGTH_SHORT).show()
+        endGame()
+    }
+
+    fun openMine(button : Button) {
+        button.text = "✹"
+        button.background = borderDrawableDarker
+        button.setTextColor(Color.BLACK)
+    }
+
+    fun eraseFlag(i : Int, j : Int) {
+        val button = getButton(i, j)
+        button.text = ""
+    }
+    fun markFlag(i : Int, j : Int) {
+        val button = getButton(i, j)
+        button.text = "🚩"
+    }
+
+    fun getButton(i : Int, j : Int) : Button {
+        return btns[i * col + j]
+    }
+
+    fun endGame() {
         startBtn.isEnabled = true
         easyBtn.isEnabled = true
         hardBtn.isEnabled = true
+        for (i in 0 until row) {
+            for (j in 0 until col) {
+                val button = getButton(i, j)
+                button.isEnabled = false
+                if (mineMap[i][j] == -1) {
+                    openMine(button)
+                }
+            }
+        }
     }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

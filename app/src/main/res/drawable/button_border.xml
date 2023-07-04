@@ -2,5 +2,5 @@
     <solid android:color="#CCCCCC" /> <!-- 배경색 (회색) -->
     <stroke
         android:width="5dp"
-        android:color="#000000" /> <!-- 테두리 색상 (검은색) -->
+        android:color="#666666" /> <!-- 테두리 색상 (검은색) -->
 </shape>
