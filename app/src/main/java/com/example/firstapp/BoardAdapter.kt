@@ -66,7 +66,6 @@ class BoardAdapter(private var itemList: ArrayList<BoardItem>) :
                 itemClickListener?.onItemClick(BoardItem(name.text as String, phone.text as String, email.text as String))
             }
             button.setOnClickListener{
-                Toast.makeText(itemView.context, "call ${phone.text}}", Toast.LENGTH_SHORT).show()
                 itemClickListener?.onCallClick(phone.text as String)
             }
         }

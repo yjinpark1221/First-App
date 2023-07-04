@@ -1,8 +1,10 @@
 package com.example.firstapp
 
+import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
-
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 
 
 data class Album(

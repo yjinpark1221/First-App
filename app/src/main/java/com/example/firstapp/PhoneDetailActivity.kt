@@ -36,7 +36,7 @@ class PhoneDetailActivity : AppCompatActivity() {
                 item = PhonebookFragment.itemList[index]
             }
         }
-
+        setTitle("'$name' 연락처 상세")
         var editToggle = false
         val editBtn : Button = findViewById(R.id.detail_edit_btn)
         val deleteBtn : Button = findViewById(R.id.detail_delete_btn)
@@ -88,7 +88,6 @@ class PhoneDetailActivity : AppCompatActivity() {
 
         editBtn.setOnClickListener{
             if (editToggle) {
-                Toast.makeText(this, "${isValid(nameBuffer, phoneBuffer, emailBuffer)}", Toast.LENGTH_SHORT).show()
                 tryEdit(nameBuffer, phoneBuffer, emailBuffer)
                 editToggle = false
                 nameInput.isEnabled = false
@@ -97,7 +96,6 @@ class PhoneDetailActivity : AppCompatActivity() {
                 editBtn.setText("Edit")
             }
             else {
-                Toast.makeText(this, "${isValid(nameBuffer, phoneBuffer, emailBuffer)}", Toast.LENGTH_SHORT).show()
                 editToggle = true
                 nameInput.isEnabled = true
                 phoneInput.isEnabled = true
@@ -127,7 +125,6 @@ class PhoneDetailActivity : AppCompatActivity() {
                 alertDialogBuilder.setMessage("'$name'(이)라는 이름의 연락처가 이미 있습니다. 덮어 쓰시겠습니까?")
 
                 alertDialogBuilder.setPositiveButton("예") { dialog, which ->
-                    Toast.makeText(this, "${tmpItem.name} ${tmpItem.phone} ${PhonebookFragment.itemList.indexOf(tmpItem)}", Toast.LENGTH_SHORT).show()
                     PhonebookFragment.itemList.remove(tmpItem)
                     editPhone(name, phone, email)
                 }

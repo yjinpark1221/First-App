@@ -6,14 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.firstapp.ui.dashboard.DashboardFragmentDirections
 
-class AlbumAdapter(private val context: Context, private val albumList: List<Album>) :
+class AlbumAdapter(val albumList: List<Album>) :
     RecyclerView.Adapter<AlbumAdapter.ViewHolder>() {
+    interface OnAlbumClickListener {
+        fun onAlbumClick(int : Int) {}
+    }
+    var albumClickListener: OnAlbumClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_album, parent, false)
@@ -22,7 +26,9 @@ class AlbumAdapter(private val context: Context, private val albumList: List<Alb
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val album = albumList[position]
-        holder.bind(album)
+
+        holder.albumNameTextView.text= album.albumName
+        holder.albumimageView.setImageResource(album.imageList[0])
     }
 
     override fun getItemCount(): Int {
@@ -30,20 +36,16 @@ class AlbumAdapter(private val context: Context, private val albumList: List<Alb
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val albumNameTextView: TextView = itemView.findViewById(R.id.albumNameTextView)
-        private val albumimageView: ImageView = itemView.findViewById(R.id.albumImageView)
+        val albumNameTextView: TextView = itemView.findViewById(R.id.albumNameTextView)
+        val albumimageView: ImageView = itemView.findViewById(R.id.albumImageView)
 
-        fun bind(album: Album) {
-
-            albumNameTextView.text = album.albumName
-            albumimageView.setImageResource(album.imageList[0])
-
+        init {
             itemView.setOnClickListener {
                 val position = adapterPosition
+                Toast.makeText(itemView.context, "click ${position}", Toast.LENGTH_SHORT).show()
                 if (position != RecyclerView.NO_POSITION) {
                     val clickedAlbum = albumList[position]
-                    val action = DashboardFragmentDirections.actionDashboardFragmentToAlbumDetailsFragment(clickedAlbum)
-                    itemView.findNavController().navigate(action)
+                    albumClickListener?.onAlbumClick(position)
                 }
             }
         }

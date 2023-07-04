@@ -16,6 +16,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -63,6 +64,7 @@ class PhonebookFragment : Fragment()  {
     private lateinit var fab : FloatingActionButton
     private lateinit var addFab : FloatingActionButton
     private lateinit var importFab : FloatingActionButton
+    private lateinit var progressBar: ProgressBar
 
     // 데이터를 전달해야 할 곳에서 다음과 같이 호출합니다.
     override fun onCreateView(
@@ -159,6 +161,8 @@ class PhonebookFragment : Fragment()  {
         addFab = binding.addFab
         importFab = binding.importFab
 
+        val progressBar: ProgressBar = binding.progressBar
+
         fab.setOnClickListener {
             toggleFab()
         }
@@ -167,8 +171,10 @@ class PhonebookFragment : Fragment()  {
             startActivity(intent)
         }
         importFab.setOnClickListener {
-            Toast.makeText(context, "download from phone", Toast.LENGTH_SHORT).show()
+            importFab.isEnabled = false
+            progressBar.visibility = View.VISIBLE
 
+            // 로딩 작업 수행 (예: 네트워크 요청)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CONTACTS)
                     != PackageManager.PERMISSION_GRANTED
@@ -184,7 +190,7 @@ class PhonebookFragment : Fragment()  {
             } else {
                 readContacts()
             }
-
+            progressBar.visibility = View.INVISIBLE
         }
 
         return root
@@ -294,13 +300,14 @@ class PhonebookFragment : Fragment()  {
             }
         }
         cursor?.close()
-        Toast.makeText(context, "downloading total ${contacts.size}", Toast.LENGTH_SHORT).show()
 
         // 연락처 정보 사용하기
         for (contact in contacts) {
             trySave(contact.name, contact.phone, contact.email)
         }
-        boardAdapter.refresh()
+        boardAdapter.setItems(itemList)
+        recyclerCountText.text = "${itemList.size} ${getString(R.string.recycler_count)}"
+        Toast.makeText(context, "Imported total ${contacts.size}", Toast.LENGTH_SHORT).show()
     }
     fun trySave(name : String, phone : String, email : String) {
         for (item in PhonebookFragment.itemList) {
