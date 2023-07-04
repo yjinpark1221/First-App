@@ -16,12 +16,14 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat.startActivity
+import com.example.firstapp.ui.phonebook.PhonebookFragment
+import java.util.Collections
 
-class BoardAdapter(private val itemList: ArrayList<BoardItem>) :
+class BoardAdapter(private var itemList: ArrayList<BoardItem>) :
     RecyclerView.Adapter<BoardAdapter.BoardViewHolder>() {
 
     interface OnItemClickListener {
-        fun onItemClick(position: Int) {}
+        fun onItemClick(item: BoardItem) {}
         fun onCallClick(number: String) {}
     }
 
@@ -42,6 +44,16 @@ class BoardAdapter(private val itemList: ArrayList<BoardItem>) :
         return itemList.count()
     }
 
+    fun setItems(filteredItems: ArrayList<BoardItem>) {
+        itemList = ArrayList(filteredItems)
+        refresh()
+    }
+
+    fun refresh() {
+        Collections.sort(itemList)
+        notifyDataSetChanged()
+    }
+
     inner class BoardViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val name = itemView.findViewById<TextView>(R.id.name)
         val phone = itemView.findViewById<TextView>(R.id.phone)
@@ -51,7 +63,7 @@ class BoardAdapter(private val itemList: ArrayList<BoardItem>) :
 
         init {
             itemView.setOnClickListener{
-                itemClickListener?.onItemClick(adapterPosition)
+                itemClickListener?.onItemClick(BoardItem(name.text as String, phone.text as String, email.text as String))
             }
             button.setOnClickListener{
                 Toast.makeText(itemView.context, "call ${phone.text}}", Toast.LENGTH_SHORT).show()

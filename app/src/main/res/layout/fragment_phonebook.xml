@@ -18,27 +18,65 @@
         android:background="?attr/colorPrimary"
         android:textColor="?attr/colorOnPrimary"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        />
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <EditText
+        android:id="@+id/search_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:hint="검색어를 입력하세요"
+        android:singleLine="true"
+        android:imeOptions="actionDone"
+        app:layout_constraintTop_toBottomOf="@id/recycler_count"
+        app:layout_constraintLeft_toLeftOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:id="@+id/rv_board"
         tools:listitem="@layout/item_recycler_view"
-        app:layout_constraintTop_toBottomOf="@id/recycler_count"
+        app:layout_constraintTop_toBottomOf="@id/search_input"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/import_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:backgroundTint="?attr/colorSecondaryVariant"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/baseline_phone_android_24"
+        app:layout_constraintTop_toTopOf="@id/phone_fab"
+        app:layout_constraintLeft_toLeftOf="@id/phone_fab"
+        app:layout_constraintRight_toRightOf="@id/phone_fab"
+        app:layout_constraintBottom_toBottomOf="@id/phone_fab" />
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:backgroundTint="?attr/colorSecondaryVariant"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toBottomOf="@id/phone_fab"
+        app:layout_constraintLeft_toLeftOf="@id/phone_fab"
+        app:layout_constraintRight_toRightOf="@id/phone_fab"
+        app:layout_constraintTop_toTopOf="@id/phone_fab"
+        app:srcCompat="@drawable/baseline_edit_24" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/phone_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
         android:layout_margin="24dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:srcCompat="@drawable/ic_baseline_add_24"
         app:layout_constraintRight_toRightOf="parent"
-        app:srcCompat="@drawable/ic_baseline_add_24" />
+        app:layout_constraintBottom_toBottomOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
