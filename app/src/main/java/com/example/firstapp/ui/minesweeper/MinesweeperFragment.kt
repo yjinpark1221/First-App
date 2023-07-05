@@ -21,6 +21,8 @@ import android.widget.EditText
 import android.widget.GridLayout
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.content.res.ResourcesCompat
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -171,14 +173,15 @@ class MinesweeperFragment : Fragment() {
                 gridLayout.addView(button)
 
                 button.isEnabled = false
-                button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25f)
-                button.setTypeface(null, Typeface.BOLD)
+                button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
+                val typeface = ResourcesCompat.getFont(requireActivity(), R.font.minesweeper)
+                button.setTypeface(typeface)
                 btns.add(button)
 
                 // button reveal effect
                 button.visibility = View.INVISIBLE
-                val visible_delay = idx * 250L
-                val enable_delay = col * row * 250L
+                val visible_delay = idx * 100L
+                val enable_delay = col * row * 100L
                 handler.postDelayed({
                     button.visibility = View.VISIBLE // Set the button's visibility to visible after the delay
                 }, visible_delay)

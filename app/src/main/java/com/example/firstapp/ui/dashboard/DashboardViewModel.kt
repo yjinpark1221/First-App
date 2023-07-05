@@ -1,13 +1,11 @@
 package com.example.firstapp.ui.dashboard
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.firstapp.Album
 
-class DashboardViewModel : ViewModel() {
-
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is dashboard Fragment"
+class SharedViewModel : ViewModel() {
+    val albumList: MutableLiveData<ArrayList<Album>> by lazy {
+        MutableLiveData<ArrayList<Album>>()
     }
-    val text: LiveData<String> = _text
 }
