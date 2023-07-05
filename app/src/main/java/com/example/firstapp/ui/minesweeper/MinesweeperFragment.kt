@@ -146,7 +146,6 @@ class MinesweeperFragment : Fragment() {
                 val idx = i * col + j
                 val button = Button(this.context, null, R.style.SquareButtonStyle)
 
-//                val imgbutton = ImageButton(this.activity, null, R.drawable.upopened_square)
                 val params = GridLayout.LayoutParams().apply {
                     rowSpec = GridLayout.spec(i)
                     columnSpec = GridLayout.spec(j)
