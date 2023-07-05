@@ -66,13 +66,22 @@ DELETE(`Button`)을 누르면 연락처가 삭제되며 연락처 목록으로 �
 
 ## Tab2. 갤러리
 
-### 앨범 목록 보기
+gallery 기능
 
-### 앨범 사진 목록 보기
+### 앨범 단위로 갤러리 보기
+    
+    갤러리를 구성할 때, 갤러리 화면에서 앨범 단위로 접근할 수 있고, 앨범을 클릭할 경우 앨범의 세부 내용(앨범 내 사진들)을  확인할 수 있도록 구현
+    
+    - gallery fragment를 album을 display하는 recyclerview를 display하도록 구현함.
+    - gallery fragment는 album의 대표사진과 albumname을 display함.
+    - albumname과 imagelist로 구성된 album data class 정의
+    - 각 element 단위에 onclicklistener 구현하여 앨범 클릭시 해당 앨범의 이미지들을 display하는 activity로 이동
+### 이미지 단위로 앨범
+    - gallery fragment에서 album element 클릭시, 해당 album의 imagelist 내 이미지를 display하도록 구현함.
+    - album 클릭시 새 activity 만들고, intent를 통해 해당 album의 정보(albumname, imagelist) 전달
+    - 새 activity에서는 해당 앨범의 imagelist를 recyclerview를 통해 display함.
 
-### 앨범 내 사진 삭제
 
-### 앨범 간 사진 이동
 
 ## Tab3. 지뢰찾기 (자유 주제)
 
