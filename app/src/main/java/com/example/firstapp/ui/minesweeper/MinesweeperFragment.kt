@@ -1,10 +1,11 @@
 package com.example.firstapp.ui.minesweeper
 
+import android.annotation.SuppressLint
+import android.app.Dialog
+import android.content.DialogInterface
 import android.graphics.Color
-import android.graphics.Paint
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.ShapeDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -14,25 +15,37 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.Button
+import android.widget.EditText
 import android.widget.GridLayout
-import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.firstapp.R
 import com.example.firstapp.databinding.FragmentMinesweeperBinding
-import kotlinx.coroutines.delay
-import java.sql.Types.NULL
+import java.util.Collections
 import java.util.Locale
 import java.util.Timer
 import java.util.TimerTask
-import kotlin.concurrent.timer
 import kotlin.random.Random
 
-class MinesweeperFragment : Fragment() {
 
+class MinesweeperFragment : Fragment() {
+    inner class Score (user : String, time : Int) : Comparable <Score> {
+        val user : String = user
+        val time : Int = time
+        override fun compareTo(other: Score): Int {
+            return time.compareTo(other.time)
+        }
+    }
+
+    companion object {
+        val easyRecord : ArrayList <Score> = ArrayList <Score>()
+        val hardRecord : ArrayList <Score> = ArrayList <Score>()
+    }
     private var _binding: FragmentMinesweeperBinding? = null
 
     // This property is only valid between onCreateView and
@@ -43,6 +56,7 @@ class MinesweeperFragment : Fragment() {
     lateinit var startBtn : Button
     lateinit var easyBtn : Button
     lateinit var hardBtn : Button
+    lateinit var scoreboardBtn : Button
     var row = 5
     var col = 5
     var leftCnt = 0
@@ -50,6 +64,7 @@ class MinesweeperFragment : Fragment() {
     var userCnt = 0
     lateinit var borderDrawable : Drawable
     lateinit var borderDrawableDarker : Drawable
+    var mode = 0
 
     // timer
     private var sec: Int = 0
@@ -76,8 +91,8 @@ class MinesweeperFragment : Fragment() {
         easyBtn = binding.easyBtn
         hardBtn = binding.hardBtn
         startBtn.setBackgroundResource(R.drawable.upopened_square)
+        scoreboardBtn = binding.scoreboard
 
-//        binding.timerTextView.setVisibility(View.INVISIBLE)
         startBtn.setOnClickListener{
             startGame(row, col, mineCnt)
             startBtn.isEnabled = false
@@ -85,42 +100,33 @@ class MinesweeperFragment : Fragment() {
 
             easyBtn.isEnabled = false
             hardBtn.isEnabled = false
-//            binding.timerTextView.setVisibility(View.VISIBLE)
             startTimer()
         }
 
-
-
+        scoreboardBtn.setOnClickListener{
+            showRecord()
+        }
 
         binding.toggleButtonGroup.addOnButtonCheckedListener{ toggleButtonGroup, checkedId, isChecked ->
             if (isChecked) {
                 when (checkedId) {
                     R.id.easy_btn -> {
+                        mode = 0
                         row = 5
                         col = 5
                         mineCnt = 6
                         startBtn.isEnabled = true
                     }
                     R.id.hard_btn -> {
-                        row = 7; col = 6; mineCnt = 10;
+                        mode = 1
+                        row = 7
+                        col = 6
+                        mineCnt = 10
                         startBtn.isEnabled = true
                     }
                 }
             }
         }
-//        easyBtn.setOnClickListener{
-//            row = 5
-//            col = 5
-//            mineCnt = 6
-//            startBtn.isEnabled = true
-//        }
-
-//        hardBtn.setOnClickListener{
-//            row = 7
-//            col = 6
-//            mineCnt = 10
-//            startBtn.isEnabled = true
-//        }
         return root
     }
 
@@ -136,6 +142,7 @@ class MinesweeperFragment : Fragment() {
         return randomNumbers
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     fun startGame(row: Int, col: Int, mine: Int) {
         startBtn.text = "🙂"
         leftCnt = row * col - mine
@@ -143,8 +150,6 @@ class MinesweeperFragment : Fragment() {
         binding.bombTextView.setText(threeDigits(userCnt.toString()))
         val gridLayout = binding.gridLayout
 
-        // TODO : 난이도 같은 경우 그리드 재활용하기
-        // 현재는 매 판 지우고 그림
         gridLayout.removeAllViews()
         btns = ArrayList<Button>()
         for (i in 0 until row) {
@@ -152,7 +157,6 @@ class MinesweeperFragment : Fragment() {
                 val idx = i * col + j
                 val button = Button(this.context, null, R.style.SquareButtonStyle)
 
-//                val imgbutton = ImageButton(this.activity, null, R.drawable.upopened_square)
                 val params = GridLayout.LayoutParams().apply {
                     rowSpec = GridLayout.spec(i)
                     columnSpec = GridLayout.spec(j)
@@ -323,12 +327,111 @@ class MinesweeperFragment : Fragment() {
 
     fun lose() {
         startBtn.text = "😖"
-        stopTimer()
         endGame()
     }
     fun win() {
         startBtn.text = "😎"
+        addRecord()
         endGame()
+    }
+
+    @SuppressLint("SetTextI18n")
+    fun showRecord() {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.scoreboard)
+
+        val easy1user = dialog.findViewById<TextView>(R.id.easy1user)
+        val easy2user = dialog.findViewById<TextView>(R.id.easy2user)
+        val easy3user = dialog.findViewById<TextView>(R.id.easy3user)
+        val easy1time = dialog.findViewById<TextView>(R.id.easy1time)
+        val easy2time = dialog.findViewById<TextView>(R.id.easy2time)
+        val easy3time = dialog.findViewById<TextView>(R.id.easy3time)
+        val hard1user = dialog.findViewById<TextView>(R.id.hard1user)
+        val hard2user = dialog.findViewById<TextView>(R.id.hard2user)
+        val hard3user = dialog.findViewById<TextView>(R.id.hard3user)
+        val hard1time = dialog.findViewById<TextView>(R.id.hard1time)
+        val hard2time = dialog.findViewById<TextView>(R.id.hard2time)
+        val hard3time = dialog.findViewById<TextView>(R.id.hard3time)
+
+        if (easyRecord.size > 0) {
+            easy1user.text = easyRecord[0].user
+            easy1time.text = "${easyRecord[0].time} sec"
+        }
+        if (easyRecord.size > 1) {
+            easy2user.text = easyRecord[1].user
+            easy2time.text = "${easyRecord[1].time} sec"
+        }
+        if (easyRecord.size > 2) {
+            easy3user.text = easyRecord[2].user
+            easy3time.text = "${easyRecord[2].time} sec"
+        }
+
+        if (easyRecord.size > 0) {
+            easy1user.text = easyRecord[0].user
+            easy1time.text = "${easyRecord[0].time} sec"
+        }
+        if (easyRecord.size > 1) {
+            easy2user.text = easyRecord[1].user
+            easy2time.text = "${easyRecord[1].time} sec"
+        }
+        if (easyRecord.size > 2) {
+            easy3user.text = easyRecord[2].user
+            easy3time.text = "${easyRecord[2].time} sec"
+        }
+
+        if (hardRecord.size > 0) {
+            hard1user.text = hardRecord[0].user
+            hard1time.text = "${hardRecord[0].time} sec"
+        }
+        if (hardRecord.size > 1) {
+            hard2user.text = hardRecord[1].user
+            hard2time.text = "${hardRecord[1].time} sec"
+        }
+        if (hardRecord.size > 2) {
+            hard3user.text = hardRecord[2].user
+            hard3time.text = "${hardRecord[2].time} sec"
+        }
+
+        dialog.show()
+    }
+    fun addRecord() {
+        val alert: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+
+        alert.setTitle("사용자 이름 입력")
+        alert.setMessage("짧은 이름을 추천합니다")
+
+
+        val name = EditText(this.activity)
+        alert.setView(name)
+
+        alert.setPositiveButton("확인",
+            DialogInterface.OnClickListener { dialog, whichButton ->
+                val username = name.text.toString()
+                if (mode == 0) {
+                    easyRecord.add(Score(username, sec))
+                    Collections.sort(easyRecord)
+                }
+                else if (mode == 1) {
+                    hardRecord.add(Score(username, sec))
+                    Collections.sort(hardRecord)
+                }
+            })
+
+
+        alert.setNegativeButton("익명",
+            DialogInterface.OnClickListener { dialog, whichButton ->
+                if (mode == 0) {
+                    easyRecord.add(Score("anon", sec))
+                    Collections.sort(easyRecord)
+                }
+                else if (mode == 1) {
+                    hardRecord.add(Score("anon", sec))
+                    Collections.sort(hardRecord)
+                }
+            })
+
+        alert.show()
     }
 
     fun openMine(button : Button) {
