@@ -1,7 +1,9 @@
 package com.example.firstapp
 
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class ImageAdapter(
     private val context: Context,
-    private val imageList: List<Int>
+    private var imageList: List<Int>
 ) : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

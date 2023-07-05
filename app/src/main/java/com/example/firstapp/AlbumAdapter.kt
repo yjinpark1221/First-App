@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class AlbumAdapter(val albumList: List<Album>) :
+class AlbumAdapter(var albumList: List<Album>) :
     RecyclerView.Adapter<AlbumAdapter.ViewHolder>() {
     interface OnAlbumClickListener {
         fun onAlbumClick(int : Int) {}
@@ -42,7 +42,6 @@ class AlbumAdapter(val albumList: List<Album>) :
         init {
             itemView.setOnClickListener {
                 val position = adapterPosition
-                Toast.makeText(itemView.context, "click ${position}", Toast.LENGTH_SHORT).show()
                 if (position != RecyclerView.NO_POSITION) {
                     val clickedAlbum = albumList[position]
                     albumClickListener?.onAlbumClick(position)
