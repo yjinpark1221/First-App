@@ -3,11 +3,7 @@
 
 
     <solid android:color="#CCCCCC"/>
-        <gradient
-            android:angle="-45"
-            android:centerColor="#9B9B9B"
-            android:startColor="#FFFFFF"
-            android:endColor="#666666"/>
+
      <!-- 배경색 (회색) -->
     <stroke
         android:width="3dp"

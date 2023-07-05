@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 data class Album(
     val albumName: String?,
-    val imageList: List<Int>
+    var imageList: List<Int>
 ) : Parcelable {
     // Implement the Parcelable methods here
 

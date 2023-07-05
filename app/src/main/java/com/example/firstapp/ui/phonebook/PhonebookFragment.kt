@@ -307,7 +307,6 @@ class PhonebookFragment : Fragment()  {
         }
         boardAdapter.setItems(itemList)
         recyclerCountText.text = "${itemList.size} ${getString(R.string.recycler_count)}"
-        Toast.makeText(context, "Imported total ${contacts.size}", Toast.LENGTH_SHORT).show()
     }
     fun trySave(name : String, phone : String, email : String) {
         for (item in PhonebookFragment.itemList) {

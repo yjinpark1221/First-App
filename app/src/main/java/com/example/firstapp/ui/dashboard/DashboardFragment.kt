@@ -44,18 +44,22 @@ class DashboardFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel =
-            ViewModelProvider(this).get(DashboardViewModel::class.java)
 
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val dogImages = listOf(R.drawable.image_1, R.drawable.image_1, R.drawable.image_1, R.drawable.image_1)
-        val catImages = listOf(R.drawable.image_2, R.drawable.image_2, R.drawable.image_2, R.drawable.image_2, R.drawable.image_2)
+        val dogImages = listOf(R.drawable.image_1, R.drawable.image_dog1, R.drawable.image_dog2, R.drawable.image_dog3, R.drawable.image_dog4,
+            R.drawable.image_dog5, R.drawable.image_1, R.drawable.image_dog1, R.drawable.image_dog2, R.drawable.image_dog3, R.drawable.image_dog4,
+            R.drawable.image_dog5, R.drawable.image_1, R.drawable.image_dog1, R.drawable.image_dog2, R.drawable.image_dog3, R.drawable.image_dog4,
+            R.drawable.image_dog5)
+        val catImages = listOf(R.drawable.image_2, R.drawable.image_cat1, R.drawable.image_cat2, R.drawable.image_cat3, R.drawable.image_cat4,
+            R.drawable.image_cat5, R.drawable.image_2, R.drawable.image_cat1, R.drawable.image_cat2, R.drawable.image_cat3, R.drawable.image_cat4,
+            R.drawable.image_cat5, R.drawable.image_2, R.drawable.image_cat1, R.drawable.image_cat2, R.drawable.image_cat3, R.drawable.image_cat4,
+            R.drawable.image_cat5)
         if (first) {
             albumList.add(Album("Dog", dogImages))
             albumList.add(Album("Cat", catImages))
-            albumList.add(Album("Cat2", catImages))
+            albumList.add(Album("AnotherCat", catImages))
             first = false
         }
 
