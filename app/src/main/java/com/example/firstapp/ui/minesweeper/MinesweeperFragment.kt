@@ -6,6 +6,8 @@ import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.ShapeDrawable
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -21,6 +23,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.firstapp.R
 import com.example.firstapp.databinding.FragmentMinesweeperBinding
+import kotlinx.coroutines.delay
 import java.sql.Types.NULL
 import java.util.Locale
 import java.util.Timer
@@ -52,6 +55,9 @@ class MinesweeperFragment : Fragment() {
     private var sec: Int = 0
     private var timerTask: TimerTask? = null
     private val timer: Timer = Timer()
+
+    // handler
+    val handler = Handler(Looper.getMainLooper())
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -152,7 +158,7 @@ class MinesweeperFragment : Fragment() {
                     columnSpec = GridLayout.spec(j)
                     width = resources.getDimensionPixelSize(R.dimen.button_size)
                     height = resources.getDimensionPixelSize(R.dimen.button_size)
-                    setMargins(2, 2, 2, 2)
+                    //setMargins(2, 2, 2, 2)
                 }
 
                 button.gravity = Gravity.CENTER
@@ -163,8 +169,18 @@ class MinesweeperFragment : Fragment() {
                 button.isEnabled = false
                 button.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25f)
                 button.setTypeface(null, Typeface.BOLD)
-
                 btns.add(button)
+
+                // button reveal effect
+                button.visibility = View.INVISIBLE
+                val visible_delay = idx * 250L
+                val enable_delay = col * row * 250L
+                handler.postDelayed({
+                    button.visibility = View.VISIBLE // Set the button's visibility to visible after the delay
+                }, visible_delay)
+                handler.postDelayed({
+                    button.isEnabled = true // Set the button's visibility to visible after the delay
+                }, enable_delay)
 
                 button.setOnTouchListener { _, event ->
                     when (event.action) {
@@ -210,7 +226,7 @@ class MinesweeperFragment : Fragment() {
             for (j in 0 until col) {
                 val idx = i * col + j
                 val button = getButton(i, j)
-                button.isEnabled = true
+                //button.isEnabled = true
                 if (mineIdxs.contains(idx)) {
                     mineMap[i][j] = -1
                 }
