@@ -31,6 +31,16 @@
             android:text="@string/hard"/>
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
+    <Button
+        android:id="@+id/scoreboard"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="📜"
+        android:layout_marginHorizontal="10dp"
+        app:layout_constraintTop_toTopOf="@id/toggleButtonGroup"
+        app:layout_constraintBottom_toBottomOf="@id/toggleButtonGroup"
+        app:layout_constraintRight_toRightOf="@id/toggleButtonGroup"
+        />
 
     <GridLayout
         android:id="@+id/grid_layout"
