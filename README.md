@@ -75,24 +75,27 @@ DELETE(`Button`)을 누르면 연락처가 삭제되며 연락처 목록으로 �
 
 ## Tab2. 갤러리
 
-gallery 기능
+갤러리 기능
 
 ### 앨범 단위로 갤러리 보기
     
-갤러리를 구성할 때, 갤러리 화면에서 앨범 단위로 접근할 수 있고, 앨범을 클릭할 경우 앨범의 세부 내용(앨범 내 사진들)을  확인할 수 있도록 구현
+갤러리를 구성할 때, 갤러리 화면에서는 앨범 단위로 이미지에 접근할 수 있고, 앨범을 클릭할 경우 앨범 내 사진들을 확인할 수 있도록 구현하고자 하였습니다.
     
-- gallery fragment를 album을 display하는 recyclerview를 display하도록 구현합니다.
-- gallery fragment는 album의 대표사진과 albumname을 display합니다.
+- 갤러리 탭에 진입하였을 때, 앨범의 대표사진과 앨범의 이름을 표현하도록 구현하고자 하였습니다.
+- 이를 구현하기 위해 앨범의 이름과 앨범의 이미지 리스트로 구성된 data class를 정의하였습니다.
+  그리고, 갤러리 탭에서 해당 앨범들을 recyclerview 형식으로 표현하도록 구현합니다.
 
 ![Screenshot_20230705-165355_FirstApp](https://github.com/yjinpark1221/Madcamp-Week1/assets/138095170/1e23124a-b6a9-4ffd-aec0-54a1da793bd5)
-- albumname과 imagelist로 구성된 album data class 정의합니다.
-- 각 element 단위에 onclicklistener 구현하여 앨범 클릭시 해당 앨범의 이미지들을 표현하는 activity로 이동합니다.
+- 또한 갤러리 탭에서 앨범을 클릭할 경우, 해당 앨범의 이미지에 접근할 수 있도록 구현하고자 하였습니다.
+- 이를 구현하기 위해 recyclerview에서 앨범의 onClickListener를 구현하여 앨범 클릭시 해당 앨범의 이미지 리스트 내 이미지들을 표현하는 activity로 이동하도록 구현합니다.
   
-### 이미지 단위로 앨범
-- 갤러리에서 앨범 클릭시, 해당 앨범의 이미지 리스트 내 이미지를 표시하도록 구현합니다.
+### 앨범 내 이미지 표시
+- 갤러리에서 앨범 클릭시, 해당 앨범의 이미지 리스트 내 이미지를 표시하도록 구현하고자 하였습니다.
+- 이를 구현하기 위해, 앨범 클릭시 새 activity 만들고, intent를 통해 해당 앨범의 정보(앨범 이름, 이미지 리스트) 전달합니다.
+- 새 activity에서는 해당 앨범의 이미지의 리스트를 recyclerview 형식으로 표현하도록 구현하였습니다.
 ![Screenshot_20230705-165404_FirstApp](https://github.com/yjinpark1221/Madcamp-Week1/assets/138095170/75d6a0ba-7ff2-47f0-ad90-23a94c3a7a6b)
-- 앨범 클릭시 새 activity 만들고, intent를 통해 해당 앨범의 정보(앨범 이름, 이미지 리스트) 전달합니다.
-- 새 activity에서는 해당 앨범의 이미지의 리스트를 recyclerview를 통해 표시합니다.
+
+
 - recyclerview에서 이미지를 클릭할 경우 dialog layout으로 확대된 이미지를 표시합니다.
 ![Screenshot_20230705-165414_FirstApp](https://github.com/yjinpark1221/Madcamp-Week1/assets/138095170/0c66a9c8-a812-4d32-b999-34a4e9873aaa)
 
